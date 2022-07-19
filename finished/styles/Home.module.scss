@@ -1,0 +1,120 @@
+.container {
+  .section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    min-height: 85vh;
+    max-width: 800px;
+    margin: auto;
+    align-items: center;
+    padding: 0 2rem;
+
+    @media (max-width: 680px) {
+      place-items: center;
+      h1 {
+        text-align: center;
+      }
+    }
+    h1 {
+      color: hsl(0, 40.00000000000017%, 98.03921568627452%);
+      padding-top: 4.6rem;
+      font-size: var(--font);
+    }
+    div {
+      position: relative;
+      width: 230px;
+      height: 11rem;
+      margin: 65px;
+      border-radius: 10px;
+      background: hsla(0, 0%, 100%, 0.1);
+      backdrop-filter: blur(50px);
+      img {
+        &:first-child {
+          position: absolute;
+          width: 140%;
+          left: -55%;
+          top: -80px;
+        }
+        &:last-of-type {
+          position: absolute;
+          width: 80%;
+          right: -30%;
+          top: 50;
+        }
+      }
+    }
+  }
+  .section2 {
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
+    > span {
+      text-align: center;
+      padding: 1rem;
+      font-size: 2rem;
+      text-transform: uppercase;
+    }
+    > div {
+      width: clamp(400px, 80%, 800px);
+      min-height: 15rem;
+      background: hsla(0, 0%, 100%, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      margin: auto;
+      div {
+        display: flex;
+        justify-content: spaced-between;
+        align-items: center;
+        padding: 0px 2.5rem;
+        p {
+          text-align: center;
+          width: 25%;
+          &:last-of-type {
+            font-size: 0.9rem;
+            font-weight: lighter;
+          }
+        }
+        button {
+          text-align: center;
+          width: 25%;
+          text-transform: Capitalize;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+.header {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  display: flex;
+  box-shadow: 2px 2px 2px hsl(0, 0%, 20%, 0.5);
+  padding: 1rem 2rem;
+  svg {
+    font-size: "1.3rem";
+    color: "white";
+  }
+  > div {
+    margin-left: auto;
+    gap: 2rem;
+    display: flex;
+    margin-right: 2rem;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: lighter;
+  }
+}
+
+.message {
+  width: clamp(120px, calc(50vw + 1rem), 500px);
+  aspect-ratio: 2/1.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-align: center;
+  background: linear-gradient(92.43deg, #ff00a8 19.97%, #8c46ff 111.92%);
+  color: hsl(0, 10%, 94%);
+}
