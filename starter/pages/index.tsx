@@ -67,18 +67,6 @@ const Home = () => {
   return (
     <Container className={styles.container}>
       <Message message={message.message} open={message.isOpen} className={``} />
-      <Button
-        style={{ width: "10rem", marginLeft: "auto", marginRight: "auto" }}
-        onClick={() => {
-          if (isConnected) {
-            deploy();
-          } else {
-            handlePopup("Connect wallet to deploy");
-          }
-        }}
-      >
-        Deploy
-      </Button>
 
       <div>
         <section className={styles.section}>
@@ -94,7 +82,6 @@ const Home = () => {
   );
 };
 
-
 export const Head = () => {
   const { isConnected, setConnected, setAccount, setContract, handlePopup } =
     useGlobalContext();
@@ -107,7 +94,7 @@ export const Head = () => {
     try {
       const newAccount = await reach.getDefaultAccount();
       setConnected(true);
-      console.log(newAccount)
+      console.log(newAccount);
       setAccount(newAccount);
     } catch (error) {
       console.log(error);

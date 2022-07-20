@@ -2,17 +2,17 @@
   <a href="" rel="noopener">
  <img src="https://docs.reach.sh/assets/logo.png" alt="Project logo"></a>
 </p>
-<h3 align="center">Battles Ship</h3>
+<h3 align="center">Pyramid  Scheme</h3>
 
 <div align="center">
 
 
 </div>
 
-## Please make sure to interact with the game here  😱  <a href="https://battle-ship2.netlify.app/"> Battleship Game </a>
+
 ---
 
-<p align="center"> This Project is a battleship implementation on the blockchain
+<p align="center"> This Project is an implementation of Pyramid scheme
     <br> 
 </p>
 
@@ -28,7 +28,6 @@
 
 ## 🧐 Problem Statement <a name = "problem_statement"></a>
 
-Having a fair implementation of Battleship on the blockchain is fairly difficult, and that's exactly what is implemented on this repo using reach.
 
 ## ⛓️ Dependencies / Limitations <a name = "limitations"></a>
 

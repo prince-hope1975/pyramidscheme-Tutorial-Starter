@@ -43,6 +43,40 @@ const Home = () => {
     setOpen(false);
     await register(await account.getAddress());
   };
+  const updateData = async (name: string, address: string, parentAddress) => {
+    const newData = data.map((item) => {
+      const { address, availableSlots } = item;
+      if (address === parentAddress) {
+        return { ...item, availableSlots: availableSlots - 1 };
+      }
+      return item;
+    });
+    const final = [
+      ...newData,
+      { name, address, availableSlots: 2, price: "20" },
+    ];
+    window.localStorage.setItem("userData", JSON.stringify(final));
+    setData(final);
+    return final;
+  };
+  const register = async (address: string) => {
+    try {
+      const obj = data.filter((item) => item.address == address);
+      if (obj[0]?.availableSlots == 0) {
+        handlePopup("Parent has no empty slots");
+        throw 43;
+      }
+      const accc = await ctc.apis.Schemers.joinPyramid(address);
+      console.log("Registration of ", reach.formatAddress(account), accc);
+      return setTimeout(async () => {
+        updateData(name, await account.getAddress(), address);
+      }, 4000);
+    } catch (error) {
+      console.error(error);
+      handlePopup("Unable to register for scheme\n"  + error.toString().slice(0, 200));
+     
+    }
+  };
 
   // const deploy = async () => {
   //   // const { networkAccount } = state;
@@ -64,60 +98,6 @@ const Home = () => {
   //   console.log(JSON.stringify(info, null, 2));
   // };
 
-  const register = async (address) => {
-    try {
-      const accc = await ctc.apis.Schemers.joinPyramid(address);
-      console.log("Registration of ", reach.formatAddress(account), accc);
-      return setTimeout(async () => {
-        updateData(name, await account.getAddress(), address);
-      }, 4000);
-    } catch (error) {
-      console.error(error);
-      handlePopup("Successfully registered for scheme");
-      return setTimeout(async () => {
-        updateData(name, await account.getAddress(), address);
-      }, 4000);
-    }
-  };
-
-  const withdraw = async () => {
-    try {
-      const ctc = account.contract(backend, JSON.parse(ctcInfo));
-      const withdrawn = await ctc.apis.Schemers.withdraw();
-      console.log("Successfully withdrawn", withdrawn);
-    } catch (error) {
-      console.log(error);
-      handlePopup(`${error}`.substring(0, 160) + "...");
-    }
-  };
-
-  const updateData = async (name: string, address: string, parentAddress) => {
-    const obj = data.filter((item) => item.address == parentAddress);
-    if (obj[0]?.availableSlots == 0) {
-      handlePopup("Parent has no empty slots");
-      throw 43;
-      return;
-    }
-
-    const newData = data.map((item) => {
-      const { address, name, availableSlots, price } = item;
-      if (address === parentAddress) {
-        return { ...item, availableSlots: availableSlots - 1 };
-      }
-      return item;
-    });
-    const final = [
-      ...newData,
-      { name, address, availableSlots: 2, price: "20" },
-    ];
-    window.localStorage.setItem("userData", JSON.stringify(final));
-    setData(final);
-    return final;
-  };
-
-  useEffect(() => {
-    console.log(state);
-  }, [account, state, dispatch]);
   useEffect(() => {
     if (isMyAlgo) {
       reach.setWalletFallback(
@@ -201,33 +181,17 @@ const Home = () => {
             })}
           </div>
         </section>
-
-        <FormDialog
-          open={open}
-          handleClose={handleClose}
-          handleSubmit={handleSubmit}
-          name={name}
-          setName={setName}
-        />
       </div>
+      <FormDialog
+        open={open}
+        handleClose={handleClose}
+        handleSubmit={handleSubmit}
+        name={name}
+        setName={setName}
+      />
     </Container>
   );
 };
-
-const Data = [
-  {
-    name: "Prince Charles",
-    price: "20",
-    availableSlots: 1,
-    address: "IAWNDP5OXXP7BD7I7QUMUOF35SM3IZWUW755HHDJK2VK25D7TLJY2UZGUE",
-  },
-  {
-    name: "Meyiwa Jarikpe",
-    price: "20",
-    availableSlots: 2,
-    address: "IAWNDP5OXXP7BD7I7QUMUOF35SM3IZWUW755HHDJK2VK25D7TLJY2UZGUE",
-  },
-];
 
 const Header = styled.div``;
 export const Head = () => {
@@ -262,6 +226,14 @@ export const Head = () => {
       handlePopup(`${error}`.substring(0, 160) + "...");
     }
   };
+
+  const pop = () => {
+    if (!isConnected) {
+      handlePopup("Cannot Withdraw!!! \n You need to register first ");
+    } else {
+      withdraw();
+    }
+  };
   return (
     <Header className={styles.header}>
       <p>
@@ -269,16 +241,7 @@ export const Head = () => {
       </p>
       <div>
         <a href="#register">register</a>
-        <a
-          href="#balance"
-          onClick={() => {
-            if (!isConnected) {
-              handlePopup(
-                "Cannot check balance!!! \n You need to register first "
-              );
-            }
-          }}
-        >
+        <a href="#balance" onClick={pop}>
           balance
         </a>
       </div>
@@ -289,4 +252,12 @@ export const Head = () => {
   );
 };
 
+const Data = [
+  {
+    name: "Prince Charles",
+    price: "20",
+    availableSlots: 1,
+    address: "IAWNDP5OXXP7BD7I7QUMUOF35SM3IZWUW755HHDJK2VK25D7TLJY2UZGUE",
+  },
+];
 export default Home;
